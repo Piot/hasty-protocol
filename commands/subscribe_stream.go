@@ -1,0 +1,54 @@
+package commands
+
+import (
+	"fmt"
+
+	"github.com/piot/hasty-protocol/channel"
+	"github.com/piot/hasty-protocol/qos"
+)
+
+// SubscribeStreamInfo : SubscribeStreamInfo command
+type SubscribeStreamInfo struct {
+	id channel.ID
+
+	qos qos.QoS
+}
+
+// Channel : todo
+func (in SubscribeStreamInfo) Channel() channel.ID {
+	return in.id
+}
+
+func (in SubscribeStreamInfo) QoS() qos.QoS {
+	return in.qos
+}
+
+// String : Return human readable string
+func (in SubscribeStreamInfo) String() string {
+	return fmt.Sprintf("[subinfo %s %s]", in.id, in.qos)
+}
+
+// NewSubscribeStreamInfo : create subscribe info
+func NewSubscribeStreamInfo(channelID channel.ID, qos qos.QoS) SubscribeStreamInfo {
+	return SubscribeStreamInfo{id: channelID, qos: qos}
+}
+
+// SubscribeStream : SubscribeStream command
+type SubscribeStream struct {
+	infos []SubscribeStreamInfo
+}
+
+// NewSubscribeStream : Creates a new ubscribeStream command
+func NewSubscribeStream(infos []SubscribeStreamInfo) SubscribeStream {
+	return SubscribeStream{infos: infos}
+}
+
+// Infos : todo
+func (in SubscribeStream) Infos() []SubscribeStreamInfo {
+	return in.infos
+}
+
+// String : Return human readable string
+func (in SubscribeStream) String() string {
+	return fmt.Sprintf("[subscribestream %s]", in.infos)
+}
