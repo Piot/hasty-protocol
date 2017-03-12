@@ -34,7 +34,10 @@ func ToSubscribeStream(in packet.Packet) (commands.SubscribeStream, error) {
 		}
 		fmt.Printf("qos:%s\n", qos)
 		pos++
-		info := commands.NewSubscribeStreamInfo(channelID, qos)
+
+		offset, offsetOctetsUsed, _ := ToOffset(payload[pos : pos+4])
+		pos += offsetOctetsUsed
+		info := commands.NewSubscribeStreamInfo(channelID, qos, offset)
 		infos = append(infos, info)
 	}
 	createdSubscribe := commands.NewSubscribeStream(infos)

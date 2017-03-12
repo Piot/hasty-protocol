@@ -9,9 +9,9 @@ import (
 
 // SubscribeStreamInfo : SubscribeStreamInfo command
 type SubscribeStreamInfo struct {
-	id channel.ID
-
-	qos qos.QoS
+	id     channel.ID
+	qos    qos.QoS
+	offset uint32
 }
 
 // Channel : todo
@@ -29,8 +29,8 @@ func (in SubscribeStreamInfo) String() string {
 }
 
 // NewSubscribeStreamInfo : create subscribe info
-func NewSubscribeStreamInfo(channelID channel.ID, qos qos.QoS) SubscribeStreamInfo {
-	return SubscribeStreamInfo{id: channelID, qos: qos}
+func NewSubscribeStreamInfo(channelID channel.ID, qos qos.QoS, offset uint32) SubscribeStreamInfo {
+	return SubscribeStreamInfo{id: channelID, qos: qos, offset: offset}
 }
 
 // SubscribeStream : SubscribeStream command
