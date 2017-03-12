@@ -15,6 +15,6 @@ func SmallLengthToOctets(length uint16) ([]byte, error) {
 	}
 
 	buf := new(bytes.Buffer)
-	binary.Write(buf, binary.BigEndian, length)
+	binary.Write(buf, binary.BigEndian, length|0x8000)
 	return buf.Bytes(), nil
 }

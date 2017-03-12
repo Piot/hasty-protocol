@@ -1,6 +1,9 @@
 package packet
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 // Type : The packet type (Publish, Subscribe, Unsubscribe, etc)
 type Type byte
@@ -46,7 +49,7 @@ func tryReadLength(buf []byte) (length int, octetsUsed int, err error) {
 		if len(buf) < 2 {
 			return 0, 0, fmt.Errorf("Buffer too small")
 		}
-		packetLength += int(buf[1]) * 0x100
+		packetLength = int(buf[0]&0x7f)*0x100 + int(buf[1])
 		octetsUsed++
 	}
 
@@ -60,7 +63,7 @@ func CheckIfWeHavePacketHeader(buf []byte) (packet Header, packetWasReady bool, 
 		return Header{}, false, nil
 	}
 	packetLength, octetsUsedForLengthEncoding, _ := tryReadLength(buf)
-
+	log.Printf("** LEN %d octetsUsed:%d", packetLength, octetsUsedForLengthEncoding)
 	octetSize := len(buf)
 	if octetSize < packetLength+octetsUsedForLengthEncoding {
 		return Header{}, false, nil
