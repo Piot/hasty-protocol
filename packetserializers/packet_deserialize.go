@@ -1,20 +1,6 @@
 package packetserializers
 
-import (
-	"github.com/piot/hasty-protocol/channel"
-	"github.com/piot/hasty-protocol/commands"
-	"github.com/piot/hasty-protocol/packet"
-)
-
-// PacketHandler : handle commands
-type PacketHandler interface {
-	HandleConnect(commands.Connect) error
-	HandlePublishStream(commands.PublishStream) error
-	HandleSubscribeStream(commands.SubscribeStream)
-	HandleUnsubscribeStream(commands.UnsubscribeStream)
-	HandleCreateStream(commands.CreateStream) (channel.ID, error)
-	HandleStreamData(commands.StreamData)
-}
+import "github.com/piot/hasty-protocol/packet"
 
 // Deserialize : ss
 func Deserialize(in packet.Packet, handler PacketHandler) (err error) {
@@ -55,6 +41,18 @@ func Deserialize(in packet.Packet, handler PacketHandler) (err error) {
 			return err
 		}
 		handler.HandleConnect(connect)
+	case packet.Ping:
+		ping, err := ToPing(in)
+		if err != nil {
+			return err
+		}
+		handler.HandlePing(ping)
+	case packet.Pong:
+		pong, err := ToPong(in)
+		if err != nil {
+			return err
+		}
+		handler.HandlePong(pong)
 	}
 
 	return nil

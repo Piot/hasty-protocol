@@ -1,9 +1,6 @@
 package packet
 
-import (
-	"fmt"
-	"log"
-)
+import "fmt"
 
 // Type : The packet type (Publish, Subscribe, Unsubscribe, etc)
 type Type byte
@@ -19,6 +16,8 @@ const (
 	StreamData
 	Connect
 	ConnectResult
+	Ping
+	Pong
 )
 
 // Header : A Packet header
@@ -29,12 +28,12 @@ type Header struct {
 }
 
 func (in Header) String() string {
-	return fmt.Sprintf("[Header type:%x payloadSize:%d]", in.packetType, in.payloadSize)
+	return fmt.Sprintf("[Header type:%02X payloadSize:%d]", in.packetType, in.payloadSize)
 }
 
 func convertFromOctetToPacketConst(t byte) (Type, error) {
 	packetType := Type(t)
-	if packetType < Nop || packetType > ConnectResult {
+	if packetType < Nop || packetType > Pong {
 		return Nop, fmt.Errorf("Illegal packet type:%d", t)
 	}
 
@@ -63,7 +62,6 @@ func CheckIfWeHavePacketHeader(buf []byte) (packet Header, packetWasReady bool, 
 		return Header{}, false, nil
 	}
 	packetLength, octetsUsedForLengthEncoding, _ := tryReadLength(buf)
-	log.Printf("** LEN %d octetsUsed:%d", packetLength, octetsUsedForLengthEncoding)
 	octetSize := len(buf)
 	if octetSize < packetLength+octetsUsedForLengthEncoding {
 		return Header{}, false, nil

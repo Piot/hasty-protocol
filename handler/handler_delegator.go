@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-
 	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/commands"
 	"github.com/piot/hasty-protocol/packetserializers"
@@ -22,7 +20,6 @@ func (in *PacketHandlerDelegator) AddHandler(v packetserializers.PacketHandler) 
 }
 
 func (in *PacketHandlerDelegator) HandleConnect(cmd commands.Connect) error {
-	fmt.Printf("Delegator Connect")
 	for _, v := range in.handlers {
 		v.HandleConnect(cmd)
 	}
@@ -43,6 +40,18 @@ func (in *PacketHandlerDelegator) HandlePublishStream(cmd commands.PublishStream
 func (in *PacketHandlerDelegator) HandleSubscribeStream(cmd commands.SubscribeStream) {
 	for _, v := range in.handlers {
 		v.HandleSubscribeStream(cmd)
+	}
+}
+
+func (in *PacketHandlerDelegator) HandlePing(cmd commands.Ping) {
+	for _, v := range in.handlers {
+		v.HandlePing(cmd)
+	}
+}
+
+func (in *PacketHandlerDelegator) HandlePong(cmd commands.Pong) {
+	for _, v := range in.handlers {
+		v.HandlePong(cmd)
 	}
 }
 

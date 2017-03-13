@@ -1,9 +1,6 @@
 package asciistring
 
-import (
-	"errors"
-	"fmt"
-)
+import "errors"
 
 // FromOctets : Returns string from octets
 func FromOctets(octets []byte) (string, int, error) {
@@ -27,7 +24,6 @@ func FromOctets(octets []byte) (string, int, error) {
 	}
 
 	s := string(octets[start : start+length])
-	fmt.Printf("Found string:%s", s)
 	return s, length + start, nil
 }
 

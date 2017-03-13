@@ -2,7 +2,6 @@ package packet
 
 import (
 	"bytes"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"log"
@@ -10,12 +9,13 @@ import (
 
 // Stream : The input octet stream
 type Stream struct {
-	buffer bytes.Buffer
+	buffer       bytes.Buffer
+	connectionID ConnectionID
 }
 
 // NewPacketStream : Creates and input stream
-func NewPacketStream() Stream {
-	stream := Stream{}
+func NewPacketStream(connectionID ConnectionID) Stream {
+	stream := Stream{connectionID: connectionID}
 	return stream
 }
 
@@ -30,8 +30,8 @@ func (stream *Stream) Feed(octets []byte) error {
 		err := errors.New("Couldn't write all octets")
 		return err
 	}
-	hexPayload := hex.Dump(stream.buffer.Bytes())
-	log.Printf("Buffer is now:%s", hexPayload)
+	//hexPayload := hex.Dump(stream.buffer.Bytes())
+	//log.Printf("Buffer is now:%s", hexPayload)
 	return nil
 }
 
@@ -61,6 +61,6 @@ func (stream *Stream) FetchPacket() (packet Packet, err error) {
 	stream.buffer.Read(packetPayload)
 
 	foundPacket := NewPacket(packetHeader, packetPayload)
-	fmt.Printf("Received Packet:%s\n", foundPacket)
+	log.Printf("%s Received Packet %s", stream.connectionID, foundPacket)
 	return foundPacket, nil
 }

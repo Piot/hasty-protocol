@@ -13,7 +13,7 @@ func CreateStreamToOctets(path string) []byte {
 	buf.WriteByte(byte(packet.CreateStream))
 	lengthBuf, lengthErr := SmallLengthToOctets(uint16(len(path)))
 	if lengthErr != nil {
-		log.Fatalf("We couldn't write length")
+		log.Printf("We couldn't write length")
 		return []byte{}
 	}
 	buf.Write(lengthBuf)

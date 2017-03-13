@@ -16,7 +16,7 @@ func PublishStreamToOctets(channel channel.ID, chunk []byte) []byte {
 	binary.Write(buf, binary.BigEndian, channel.Raw())
 	lengthBuf, lengthErr := SmallLengthToOctets(uint16(len(chunk)))
 	if lengthErr != nil {
-		log.Fatalf("We couldn't write length")
+		log.Printf("We couldn't write length")
 		return []byte{}
 	}
 	buf.Write(lengthBuf)

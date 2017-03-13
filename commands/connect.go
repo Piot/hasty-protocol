@@ -19,13 +19,15 @@ func NewConnect(realm string, protocolVersion version.Version) Connect {
 
 // String : Returns a human readable string
 func (in Connect) String() string {
-	return fmt.Sprintf("[connect %s %s]", in.realm, in.protocolVersion)
+	return fmt.Sprintf("[connect realm:%s %s]", in.realm, in.protocolVersion)
 }
 
+// Realm : todo
 func (in Connect) Realm() string {
 	return in.realm
 }
 
-func (in Connect) ProtcolVersion() version.Version {
+// ProtocolVersion : todo
+func (in Connect) ProtocolVersion() version.Version {
 	return in.protocolVersion
 }

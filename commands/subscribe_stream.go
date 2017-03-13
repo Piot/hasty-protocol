@@ -19,6 +19,7 @@ func (in SubscribeStreamInfo) Channel() channel.ID {
 	return in.id
 }
 
+// QoS : todo
 func (in SubscribeStreamInfo) QoS() qos.QoS {
 	return in.qos
 }
