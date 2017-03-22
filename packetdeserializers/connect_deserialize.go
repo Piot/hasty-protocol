@@ -1,10 +1,11 @@
-package packetserializers
+package packetdeserializers
 
 import (
 	"errors"
 	"fmt"
 
 	"github.com/piot/hasty-protocol/commands"
+	"github.com/piot/hasty-protocol/deserialize"
 	"github.com/piot/hasty-protocol/packet"
 	"github.com/piot/shadow-broker/asciistring"
 )
@@ -17,7 +18,7 @@ func ToConnect(in packet.Packet) (commands.Connect, error) {
 
 	payload := in.Payload()
 	pos := 0
-	versionObject, versionOctetCount, versionErr := ToVersion(payload[0:3])
+	versionObject, versionOctetCount, versionErr := deserialize.ToVersion(payload[0:3])
 	if versionErr != nil {
 		return commands.Connect{}, errors.New("Illegal version")
 	}

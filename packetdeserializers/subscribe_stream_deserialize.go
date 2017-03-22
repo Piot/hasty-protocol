@@ -1,9 +1,10 @@
-package packetserializers
+package packetdeserializers
 
 import (
 	"errors"
 
 	"github.com/piot/hasty-protocol/commands"
+	"github.com/piot/hasty-protocol/deserialize"
 	"github.com/piot/hasty-protocol/packet"
 )
 
@@ -25,13 +26,13 @@ func ToSubscribeStream(in packet.Packet) (commands.SubscribeStream, error) {
 		}
 		pos += idOctets
 
-		qos, err2 := ToQos(payload[pos])
+		qos, err2 := deserialize.ToQos(payload[pos])
 		if err2 != nil {
 			return commands.SubscribeStream{}, err2
 		}
 		pos++
 
-		offset, offsetOctetsUsed, _ := ToOffset(payload[pos : pos+4])
+		offset, offsetOctetsUsed, _ := deserialize.ToOffset(payload[pos : pos+4])
 		pos += offsetOctetsUsed
 		info := commands.NewSubscribeStreamInfo(channelID, qos, offset)
 		infos = append(infos, info)

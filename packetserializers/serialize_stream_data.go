@@ -1,4 +1,4 @@
-package serializer
+package packetserializers
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/packet"
+	"github.com/piot/hasty-protocol/serializer"
 )
 
 // StreamDataToOctets : todo
@@ -15,7 +16,7 @@ func StreamDataToOctets(channel channel.ID, offset uint32, data []byte) []byte {
 	buf.WriteByte(byte(packet.StreamData))
 	binary.Write(buf, binary.BigEndian, channel.Raw())
 	binary.Write(buf, binary.BigEndian, offset)
-	lengthBuf, lengthErr := SmallLengthToOctets(uint16(len(data)))
+	lengthBuf, lengthErr := serializer.SmallLengthToOctets(uint16(len(data)))
 	if lengthErr != nil {
 		log.Printf("We couldn't write length")
 		return []byte{}

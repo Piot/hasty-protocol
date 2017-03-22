@@ -1,4 +1,4 @@
-package packetserializers
+package handler
 
 // PacketHandler : handle commands
 import (

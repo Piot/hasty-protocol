@@ -1,9 +1,10 @@
-package packetserializers
+package packetdeserializers
 
 import (
 	"errors"
 
 	"github.com/piot/hasty-protocol/commands"
+	"github.com/piot/hasty-protocol/deserialize"
 	"github.com/piot/hasty-protocol/packet"
 )
 
@@ -19,7 +20,7 @@ func ToStreamData(in packet.Packet) (commands.StreamData, error) {
 		return commands.StreamData{}, err
 	}
 	pos += idOctets
-	offset, offsetOctets, offsetErr := ToStreamOffset(payload[pos:])
+	offset, offsetOctets, offsetErr := deserialize.ToStreamOffset(payload[pos:])
 	if offsetErr != nil {
 		return commands.StreamData{}, offsetErr
 	}

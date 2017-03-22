@@ -1,6 +1,10 @@
 package packet
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/piot/hasty-protocol/deserialize"
+)
 
 // Type : The packet type (Publish, Subscribe, Unsubscribe, etc)
 type Type byte
@@ -40,19 +44,9 @@ func convertFromOctetToPacketConst(t byte) (Type, error) {
 	return packetType, nil
 }
 
-func tryReadLength(buf []byte) (length int, octetsUsed int, err error) {
-	packetLength := int(buf[0])
-	octetsUsed = 1
-
-	if packetLength > 127 {
-		if len(buf) < 2 {
-			return 0, 0, fmt.Errorf("Buffer too small")
-		}
-		packetLength = int(buf[0]&0x7f)*0x100 + int(buf[1])
-		octetsUsed++
-	}
-
-	return packetLength, octetsUsed, nil
+func tryReadLength(buf []byte) (int, int, error) {
+	length, octetsUsed, err := deserialize.ToSmallLength(buf)
+	return int(length), octetsUsed, err
 }
 
 // CheckIfWeHavePacketHeader : Returns a packet if it is ready

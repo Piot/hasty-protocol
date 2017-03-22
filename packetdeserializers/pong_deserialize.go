@@ -1,4 +1,4 @@
-package packetserializers
+package packetdeserializers
 
 import (
 	"encoding/binary"

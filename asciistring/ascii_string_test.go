@@ -2,6 +2,21 @@ package asciistring
 
 import "testing"
 
+func TestFromTooSmallBuffer(t *testing.T) {
+	octets := []byte{}
+	decoded, totalOctetLength, err := FromOctets(octets)
+	if err == nil {
+		t.Error("Should have reported an error", err)
+	}
+	if totalOctetLength != 0 {
+		t.Errorf("octet length wrong:%d", totalOctetLength)
+	}
+
+	if decoded != "" {
+		t.Errorf("answer:'%s'", decoded)
+	}
+}
+
 func TestFromOctets(t *testing.T) {
 	octets := []byte{3, 'h', 'i', '!'}
 	decoded, totalOctetLength, err := FromOctets(octets)
@@ -60,24 +75,23 @@ func TestToOctets(t *testing.T) {
 }
 
 func TestToAndFromOctets(t *testing.T) {
-	const x = "Hello, this is a test"
+	const x = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 	encoded, errTo := ToOctets(x)
-	if len(encoded) != 22 {
+	const expectedOctetSize = len(x) + 2
+	if len(encoded) != expectedOctetSize {
 		t.Errorf("Length was wrong:%d", len(encoded))
 	}
 	if errTo != nil {
 		t.Errorf("Error:%s", errTo)
 	}
 	decoded, totalOctetLength, errFrom := FromOctets(encoded)
-	if totalOctetLength != 22 {
+	if totalOctetLength != expectedOctetSize {
 		t.Errorf("Octetlength:%d", totalOctetLength)
 	}
 	if decoded != x {
 		t.Errorf("Decoded wrong:%s", decoded)
 	}
-
 	if errFrom != nil {
 		t.Errorf("error:%s", errFrom)
 	}
-
 }

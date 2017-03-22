@@ -3,19 +3,18 @@ package handler
 import (
 	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/commands"
-	"github.com/piot/hasty-protocol/packetserializers"
 )
 
 // PacketHandler : handle commands
 type PacketHandlerDelegator struct {
-	handlers []packetserializers.PacketHandler
+	handlers []PacketHandler
 }
 
 func NewPacketHandlerDelegator() PacketHandlerDelegator {
 	return PacketHandlerDelegator{}
 }
 
-func (in *PacketHandlerDelegator) AddHandler(v packetserializers.PacketHandler) {
+func (in *PacketHandlerDelegator) AddHandler(v PacketHandler) {
 	in.handlers = append(in.handlers, v)
 }
 

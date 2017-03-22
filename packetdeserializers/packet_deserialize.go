@@ -1,9 +1,12 @@
-package packetserializers
+package packetdeserializers
 
-import "github.com/piot/hasty-protocol/packet"
+import (
+	"github.com/piot/hasty-protocol/handler"
+	"github.com/piot/hasty-protocol/packet"
+)
 
 // Deserialize : ss
-func Deserialize(in packet.Packet, handler PacketHandler) (err error) {
+func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 	switch in.Type() {
 	case packet.CreateStream:
 		createStream, err := ToCreateStream(in)
