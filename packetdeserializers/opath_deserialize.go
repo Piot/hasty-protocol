@@ -1,8 +1,6 @@
 package packetdeserializers
 
 import (
-	"fmt"
-
 	"github.com/piot/hasty-protocol/asciistring"
 	"github.com/piot/hasty-protocol/opath"
 )
@@ -14,7 +12,6 @@ func ToOpath(octets []byte) (opath.OPath, int, error) {
 		return opath.OPath{}, 0, errFrom
 	}
 
-	fmt.Printf("OPATH:'%s'\n", str)
 	path, pathError := opath.NewFromString(str)
 	return path, length, pathError
 }
