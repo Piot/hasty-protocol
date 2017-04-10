@@ -56,6 +56,12 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 			return err
 		}
 		handler.HandlePong(pong)
+	case packet.Login:
+		login, err := ToLogin(in)
+		if err != nil {
+			return err
+		}
+		handler.HandleLogin(login)
 	}
 
 	return nil

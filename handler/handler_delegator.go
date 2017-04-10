@@ -76,3 +76,14 @@ func (in *PacketHandlerDelegator) HandleStreamData(cmd commands.StreamData) {
 		v.HandleStreamData(cmd)
 	}
 }
+
+func (in *PacketHandlerDelegator) HandleLogin(cmd commands.Login) error {
+	for _, v := range in.handlers {
+		err := v.HandleLogin(cmd)
+		if err != nil {
+			return err
+		}
+
+	}
+	return nil
+}

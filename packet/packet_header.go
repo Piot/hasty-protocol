@@ -22,6 +22,8 @@ const (
 	ConnectResult
 	Ping
 	Pong
+	Login
+	LoginResult
 )
 
 // Header : A Packet header
