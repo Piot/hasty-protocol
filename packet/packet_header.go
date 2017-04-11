@@ -24,6 +24,7 @@ const (
 	Pong
 	Login
 	LoginResult
+	LastEnum
 )
 
 // Header : A Packet header
@@ -39,7 +40,7 @@ func (in Header) String() string {
 
 func convertFromOctetToPacketConst(t byte) (Type, error) {
 	packetType := Type(t)
-	if packetType < Nop || packetType > Pong {
+	if packetType < Nop || packetType > LastEnum {
 		return Nop, fmt.Errorf("Illegal packet type:%d", t)
 	}
 

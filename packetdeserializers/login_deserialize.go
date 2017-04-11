@@ -3,6 +3,7 @@ package packetdeserializers
 import (
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/piot/hasty-protocol/commands"
 	"github.com/piot/hasty-protocol/packet"
@@ -11,7 +12,7 @@ import (
 
 // ToLogin : Channel to subscribe to
 func ToLogin(in packet.Packet) (commands.Login, error) {
-	if in.Type() != packet.Connect {
+	if in.Type() != packet.Login {
 		return commands.Login{}, errors.New("Illegal packet type")
 	}
 
@@ -29,6 +30,6 @@ func ToLogin(in packet.Packet) (commands.Login, error) {
 	}
 
 	login := commands.NewLogin(username, password)
-	fmt.Printf("login %s\n", login)
+	log.Printf("login %s", login)
 	return login, nil
 }

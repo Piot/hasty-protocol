@@ -1,6 +1,8 @@
 package packetdeserializers
 
 import (
+	"log"
+
 	"github.com/piot/hasty-protocol/handler"
 	"github.com/piot/hasty-protocol/packet"
 )
@@ -59,6 +61,7 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 	case packet.Login:
 		login, err := ToLogin(in)
 		if err != nil {
+			log.Printf("Login err: %s", err)
 			return err
 		}
 		handler.HandleLogin(login)

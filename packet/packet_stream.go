@@ -2,8 +2,8 @@ package packet
 
 import (
 	"bytes"
+	"encoding/hex"
 	"errors"
-	"fmt"
 	"log"
 )
 
@@ -30,8 +30,10 @@ func (stream *Stream) Feed(octets []byte) error {
 		err := errors.New("Couldn't write all octets")
 		return err
 	}
-	//hexPayload := hex.Dump(stream.buffer.Bytes())
-	//log.Printf("Buffer is now:%s", hexPayload)
+	if false {
+		hexPayload := hex.Dump(stream.buffer.Bytes())
+		log.Printf("Buffer is now:%s", hexPayload)
+	}
 	return nil
 }
 
@@ -42,16 +44,18 @@ func (stream *Stream) octets() []byte {
 // FetchPacket : Converts from a stream to a packet if possible
 func (stream *Stream) FetchPacket() (packet Packet, err error) {
 	packetHeader, packetHeaderIsDone, packetHeaderErr := CheckIfWeHavePacketHeader(stream.octets())
+
 	if packetHeaderErr != nil {
 		return Packet{}, packetHeaderErr
 	}
+
 	if !packetHeaderIsDone {
-		return Packet{}, fmt.Errorf("packetHeaderIsDone:%t", packetHeaderIsDone)
+		return Packet{}, &PacketNotDoneError{msg: "Header is not done"}
 	}
 
 	availableOctets := stream.buffer.Len() - packetHeader.headerOctetSize
 	if availableOctets < packetHeader.payloadSize {
-		return Packet{}, fmt.Errorf("availableOctets:%d", availableOctets)
+		return Packet{}, &PacketNotDoneError{msg: "Payload is not done"}
 	}
 
 	skip := make([]byte, packetHeader.headerOctetSize)

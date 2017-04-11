@@ -87,3 +87,9 @@ func (in *PacketHandlerDelegator) HandleLogin(cmd commands.Login) error {
 	}
 	return nil
 }
+
+func (in *PacketHandlerDelegator) HandleTransportDisconnect() {
+	for _, v := range in.handlers {
+		v.HandleTransportDisconnect()
+	}
+}
