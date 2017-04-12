@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"encoding/hex"
 	"fmt"
 
 	"github.com/piot/hasty-protocol/channel"
@@ -22,7 +23,8 @@ func NewStreamData(channel channel.ID, offset streamoffset.Offset, data []byte, 
 
 // String : Return human readable
 func (in StreamData) String() string {
-	return fmt.Sprintf("[streamdata %s %d %v]", in.channel, in.offset, in.data)
+	hexPayload := hex.Dump(in.data)
+	return fmt.Sprintf("[streamdata %s %s %s]", in.channel, in.offset, hexPayload)
 }
 
 // Channel : string
