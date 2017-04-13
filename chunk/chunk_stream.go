@@ -6,6 +6,7 @@ import (
 	"errors"
 	"log"
 
+	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/packet"
 )
 
@@ -13,11 +14,12 @@ import (
 type Stream struct {
 	buffer       bytes.Buffer
 	connectionID packet.ConnectionID
+	channelID    channel.ID
 }
 
 // NewChunkStream : Creates and input stream
-func NewChunkStream(connectionID packet.ConnectionID) Stream {
-	stream := Stream{connectionID: connectionID}
+func NewChunkStream(connectionID packet.ConnectionID, channelID channel.ID) *Stream {
+	stream := &Stream{connectionID: connectionID, channelID: channelID}
 	return stream
 }
 
@@ -32,7 +34,7 @@ func (stream *Stream) Feed(octets []byte) error {
 		err := errors.New("Couldn't write all octets")
 		return err
 	}
-	if false {
+	if true {
 		hexPayload := hex.Dump(stream.buffer.Bytes())
 		log.Printf("Buffer is now:%s", hexPayload)
 	}
@@ -67,6 +69,6 @@ func (stream *Stream) FetchChunk() (chunk Chunk, err error) {
 	stream.buffer.Read(packetPayload)
 
 	foundPacket := NewChunk(packetHeader, packetPayload)
-	log.Printf("%s Received Chunk %s", stream.connectionID, foundPacket)
+	log.Printf("%s %s Received Chunk %s", stream.connectionID, stream.channelID, foundPacket)
 	return foundPacket, nil
 }

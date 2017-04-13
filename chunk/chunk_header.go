@@ -8,9 +8,6 @@ import (
 
 // Header : A Packet header
 type Header struct {
-	timestamp       uint64
-	userID          uint64
-	deviceID        uint64
 	payloadSize     int
 	headerOctetSize int
 }
@@ -37,5 +34,5 @@ func CheckIfWeHaveChunkHeader(buf []byte) (packet Header, packetWasReady bool, e
 	}
 	headerOctetSize := octetsUsedForLengthEncoding
 
-	return Header{payloadSize: packetLength - 1, headerOctetSize: headerOctetSize}, true, nil
+	return Header{payloadSize: packetLength, headerOctetSize: headerOctetSize}, true, nil
 }
