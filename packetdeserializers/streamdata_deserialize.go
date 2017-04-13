@@ -28,7 +28,7 @@ func ToStreamData(in packet.Packet) (commands.StreamData, error) {
 
 	isEndPosition := payload[pos] != 0
 
-	chunk := payload[pos:]
+	chunk := payload[pos+1:]
 
 	createdStreamData := commands.NewStreamData(channel, offset, chunk, isEndPosition)
 

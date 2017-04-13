@@ -16,6 +16,7 @@ func StreamDataToOctets(channel channel.ID, offset uint32, data []byte) []byte {
 	buf.WriteByte(byte(packet.StreamData))
 	binary.Write(buf, binary.BigEndian, channel.Raw())
 	binary.Write(buf, binary.BigEndian, offset)
+	buf.WriteByte(0)
 	lengthBuf, lengthErr := serializer.SmallLengthToOctets(uint16(len(data)))
 	if lengthErr != nil {
 		log.Printf("We couldn't write length")
