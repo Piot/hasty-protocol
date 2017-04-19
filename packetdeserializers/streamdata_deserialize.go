@@ -2,6 +2,7 @@ package packetdeserializers
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/piot/hasty-protocol/commands"
 	"github.com/piot/hasty-protocol/deserialize"
@@ -27,9 +28,18 @@ func ToStreamData(in packet.Packet) (commands.StreamData, error) {
 	pos += offsetOctets
 
 	isEndPosition := payload[pos] != 0
+	pos++
 
-	chunk := payload[pos+1:]
+	payloadLength, payloadLengthOctetsUsed, payloadLengthErr := deserialize.ToSmallLength(payload[pos:])
+	if payloadLengthErr != nil {
+		return commands.StreamData{}, payloadLengthErr
+	}
+	pos += payloadLengthOctetsUsed
 
+	chunk := payload[pos:]
+	if len(chunk) != int(payloadLength) {
+		return commands.StreamData{}, fmt.Errorf("Illegal length:%d", payloadLength)
+	}
 	createdStreamData := commands.NewStreamData(channel, offset, chunk, isEndPosition)
 
 	return createdStreamData, nil
