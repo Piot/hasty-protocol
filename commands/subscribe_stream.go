@@ -24,6 +24,10 @@ func (in SubscribeStreamInfo) QoS() qos.QoS {
 	return in.qos
 }
 
+func (in SubscribeStreamInfo) Offset() uint32 {
+	return in.offset
+}
+
 // String : Return human readable string
 func (in SubscribeStreamInfo) String() string {
 	return fmt.Sprintf("[subinfo %s %s]", in.id, in.qos)

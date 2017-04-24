@@ -61,11 +61,8 @@ func (stream *Stream) FetchChunk() (chunk Chunk, err error) {
 	if availableOctets < packetHeader.payloadSize {
 		return Chunk{}, &NotDoneError{msg: "Payload is not done"}
 	}
-
-	skip := make([]byte, packetHeader.headerOctetSize)
-	stream.buffer.Read(skip)
-
-	packetPayload := make([]byte, packetHeader.payloadSize)
+	completeChunkPayloadOctetCount := packetHeader.payloadSize + packetHeader.headerOctetSize
+	packetPayload := make([]byte, completeChunkPayloadOctetCount)
 	stream.buffer.Read(packetPayload)
 
 	foundPacket := NewChunk(packetHeader, packetPayload)
