@@ -15,6 +15,7 @@ func OctetsToAuthenticationInfo(octets []byte) (authentication.Info, int) {
 	userID, _ := user.NewID(userIDValue)
 	pos += 8
 	userAllocatedChannelIDValue := binary.BigEndian.Uint64(octets[pos : pos+8])
+	pos += 8
 	userAllocatedChannelID, _ := channel.NewFromID(uint32(userAllocatedChannelIDValue))
 	info := authentication.NewInfo(userID, userAllocatedChannelID)
 	return info, pos
