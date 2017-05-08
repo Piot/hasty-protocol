@@ -11,6 +11,7 @@ type PacketHandler interface {
 	HandlePing(commands.Ping)
 	HandlePong(commands.Pong)
 	HandlePublishStream(commands.PublishStream) error
+	HandlePublishStreamUser(commands.PublishStreamUser) error
 	HandleSubscribeStream(commands.SubscribeStream)
 	HandleUnsubscribeStream(commands.UnsubscribeStream)
 	HandleCreateStream(commands.CreateStream) (channel.ID, error)

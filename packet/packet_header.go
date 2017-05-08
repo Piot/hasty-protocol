@@ -24,6 +24,7 @@ const (
 	Pong
 	Login
 	LoginResult
+	PublishStreamUser
 	LastEnum
 )
 

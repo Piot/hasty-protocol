@@ -22,6 +22,12 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 			return err
 		}
 		handler.HandlePublishStream(publishStream)
+	case packet.PublishStreamUser:
+		publishStream, err := ToPublishStreamUser(in)
+		if err != nil {
+			return err
+		}
+		handler.HandlePublishStreamUser(publishStream)
 	case packet.SubscribeStream:
 		subscribe, err := ToSubscribeStream(in)
 		if err != nil {

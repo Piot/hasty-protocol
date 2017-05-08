@@ -25,6 +25,17 @@ func (in *PacketHandlerDelegator) HandleConnect(cmd commands.Connect) error {
 	return nil
 }
 
+func (in *PacketHandlerDelegator) HandlePublishStreamUser(cmd commands.PublishStreamUser) error {
+	for _, v := range in.handlers {
+		err := v.HandlePublishStreamUser(cmd)
+		if err != nil {
+			return err
+		}
+
+	}
+	return nil
+}
+
 func (in *PacketHandlerDelegator) HandlePublishStream(cmd commands.PublishStream) error {
 	for _, v := range in.handlers {
 		err := v.HandlePublishStream(cmd)
