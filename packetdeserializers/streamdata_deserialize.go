@@ -38,7 +38,7 @@ func ToStreamData(in packet.Packet) (commands.StreamData, error) {
 
 	chunk := payload[pos:]
 	if len(chunk) != int(payloadLength) {
-		return commands.StreamData{}, fmt.Errorf("Illegal length:%d", payloadLength)
+		return commands.StreamData{}, fmt.Errorf("Illegal length:%d lengthOfChunk:%d", payloadLength, len(chunk))
 	}
 	createdStreamData := commands.NewStreamData(channel, offset, chunk, isEndPosition)
 

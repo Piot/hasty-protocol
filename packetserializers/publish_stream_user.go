@@ -5,9 +5,9 @@ import (
 	"encoding/binary"
 	"log"
 
-	"github.com/piot/chat-server/user"
 	"github.com/piot/hasty-protocol/packet"
 	"github.com/piot/hasty-protocol/serializer"
+	"github.com/piot/hasty-protocol/user"
 )
 
 // PublishStreamUserToOctets : todo
