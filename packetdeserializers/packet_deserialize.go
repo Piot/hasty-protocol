@@ -46,6 +46,12 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 			return err
 		}
 		handler.HandleStreamData(streamdata)
+	case packet.Authenticated:
+		authenticated, err := ToAuthenticated(in)
+		if err != nil {
+			return err
+		}
+		handler.HandleAuthenticated(authenticated)
 	case packet.Connect:
 		connect, err := ToConnect(in)
 		if err != nil {

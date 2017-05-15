@@ -11,10 +11,8 @@ import (
 // OctetsToAuthenticationChunk : todo
 func OctetsToAuthenticationChunk(payload []byte) (authentication.Info, []byte, error) {
 	pos := 0
-	/*
-	 */
 	authenticationInfo, authenticationInfoCount := OctetsToAuthenticationInfo(payload[pos:])
-	log.Printf("UserID %v channel %v ", authenticationInfo.UserID(), authenticationInfo.UserAllocatedChannelID())
+	log.Printf("Authentication info %s", authenticationInfo)
 	pos += authenticationInfoCount
 	commandLength, commandLengthOctetCount, _ := deserialize.ToSmallLength(payload[pos:])
 	pos += commandLengthOctetCount

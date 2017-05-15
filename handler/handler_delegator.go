@@ -99,6 +99,12 @@ func (in *PacketHandlerDelegator) HandleLogin(cmd commands.Login) error {
 	return nil
 }
 
+func (in *PacketHandlerDelegator) HandleAuthenticated(cmd commands.Authenticated) {
+	for _, v := range in.handlers {
+		v.HandleAuthenticated(cmd)
+	}
+}
+
 func (in *PacketHandlerDelegator) HandleTransportDisconnect() {
 	for _, v := range in.handlers {
 		v.HandleTransportDisconnect()

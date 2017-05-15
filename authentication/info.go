@@ -1,19 +1,19 @@
 package authentication
 
 import (
-	"github.com/piot/hasty-protocol/channel"
+	"fmt"
+
 	"github.com/piot/hasty-protocol/user"
 )
 
 // Info : todo
 type Info struct {
-	userID    user.ID
-	channelID channel.ID
+	userID user.ID
 }
 
 // NewInfo : todo
-func NewInfo(userID user.ID, channelID channel.ID) Info {
-	return Info{userID: userID, channelID: channelID}
+func NewInfo(userID user.ID) Info {
+	return Info{userID: userID}
 }
 
 // UserID : todo
@@ -21,7 +21,7 @@ func (in Info) UserID() user.ID {
 	return in.userID
 }
 
-// UserAllocatedChannelID : todo
-func (in Info) UserAllocatedChannelID() channel.ID {
-	return in.channelID
+// String : todo
+func (in Info) String() string {
+	return fmt.Sprintf("[authentication ID:%s ]", in.userID)
 }

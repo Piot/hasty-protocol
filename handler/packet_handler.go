@@ -16,6 +16,7 @@ type PacketHandler interface {
 	HandleUnsubscribeStream(commands.UnsubscribeStream)
 	HandleCreateStream(commands.CreateStream) (channel.ID, error)
 	HandleStreamData(commands.StreamData)
+	HandleAuthenticated(commands.Authenticated)
 	HandleLogin(commands.Login) error
 	HandleTransportDisconnect()
 }

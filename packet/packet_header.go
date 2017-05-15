@@ -25,6 +25,7 @@ const (
 	Login
 	LoginResult
 	PublishStreamUser
+	Authenticated
 	LastEnum
 )
 
@@ -35,8 +36,45 @@ type Header struct {
 	headerOctetSize int
 }
 
+func typeToString(packetType Type) string {
+	switch packetType {
+	case Nop:
+		return ""
+
+	case PublishStream:
+		return "PublishStream"
+	case SubscribeStream:
+		return "SubscribeStream"
+	case UnsubscribeStream:
+		return "UnsubStream"
+	case CreateStream:
+		return "cretatestream"
+	case CreateStreamResult:
+		return "createstreamresult"
+	case StreamData:
+		return "streamdata"
+	case Connect:
+		return "connect"
+	case ConnectResult:
+		return "connectresult"
+	case Ping:
+		return "ping"
+	case Pong:
+		return "pong"
+	case Login:
+		return "login"
+	case LoginResult:
+		return "loginresult"
+	case PublishStreamUser:
+		return "publishstream"
+	case Authenticated:
+		return "authenticated"
+	}
+	return "unknown"
+}
+
 func (in Header) String() string {
-	return fmt.Sprintf("[Header type:%02X payloadSize:%d]", in.packetType, in.payloadSize)
+	return fmt.Sprintf("[Header type:%02X (%s) payloadSize:%02X (%d)]", in.packetType, typeToString(in.packetType), in.payloadSize, in.payloadSize)
 }
 
 func convertFromOctetToPacketConst(t byte) (Type, error) {
