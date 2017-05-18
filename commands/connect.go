@@ -3,17 +3,18 @@ package commands
 import (
 	"fmt"
 
+	"github.com/piot/hasty-protocol/realmname"
 	"github.com/piot/hasty-protocol/version"
 )
 
 // Connect : Connect command
 type Connect struct {
 	protocolVersion version.Version
-	realm           string
+	realm           realmname.Name
 }
 
 // NewConnect : Creates a new Connect command
-func NewConnect(realm string, protocolVersion version.Version) Connect {
+func NewConnect(realm realmname.Name, protocolVersion version.Version) Connect {
 	return Connect{protocolVersion: protocolVersion, realm: realm}
 }
 
@@ -23,7 +24,7 @@ func (in Connect) String() string {
 }
 
 // Realm : todo
-func (in Connect) Realm() string {
+func (in Connect) Realm() realmname.Name {
 	return in.realm
 }
 

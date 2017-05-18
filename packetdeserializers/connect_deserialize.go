@@ -7,6 +7,7 @@ import (
 	"github.com/piot/hasty-protocol/commands"
 	"github.com/piot/hasty-protocol/deserialize"
 	"github.com/piot/hasty-protocol/packet"
+	"github.com/piot/hasty-protocol/realmname"
 	"github.com/piot/shadow-broker/asciistring"
 )
 
@@ -23,9 +24,13 @@ func ToConnect(in packet.Packet) (commands.Connect, error) {
 		return commands.Connect{}, errors.New("Illegal version")
 	}
 	pos += versionOctetCount
-	realm, _, realmErr := asciistring.FromOctets(payload[pos:])
+	realmString, _, realmStringErr := asciistring.FromOctets(payload[pos:])
+	if realmStringErr != nil {
+		return commands.Connect{}, fmt.Errorf("Illegal realm %s", realmStringErr)
+	}
+	realm, realmErr := realmname.NewName(realmString)
 	if realmErr != nil {
-		return commands.Connect{}, fmt.Errorf("Illegal realm %s", realmErr)
+		return commands.Connect{}, realmErr
 	}
 	connect := commands.NewConnect(realm, versionObject)
 	fmt.Printf("connect %s\n", connect)
