@@ -19,3 +19,14 @@ func New(major uint8, minor uint8, patch uint8) (out Version, err error) {
 func (in Version) String() string {
 	return fmt.Sprintf("[version %d.%d.%d]", in.major, in.minor, in.patch)
 }
+
+func (in Version) Major() uint8 {
+	return in.major
+}
+
+func (in Version) Minor() uint8 {
+	return in.minor
+}
+func (in Version) Patch() uint8 {
+	return in.patch
+}
