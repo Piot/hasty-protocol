@@ -11,7 +11,9 @@ type Name struct {
 }
 
 func verify(value string) error {
-	matched, err2 := regexp.MatchString("^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z\\-]{0,61}$", value)
+	//
+	// ^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z\\-]{0,61}$
+	matched, err2 := regexp.MatchString("^([a-zA-Z0-9]([a-zA-Z0-9\\-\\.]{0,61}[a-zA-Z0-9])?[\\-\\.])+[a-zA-Z0-9]{0,61}$", value)
 
 	if err2 != nil {
 		return err2
