@@ -19,6 +19,7 @@ func TestPath(t *testing.T) {
 	checkPath(t, "/@zaphod", true)
 	checkPath(t, "/zaphod/@1234", true)
 
+	checkPath(t, "/zaphod/@01", true)
 	checkPath(t, "/endslashnotallowed/", false)
 	checkPath(t, "/something/åaphod", false)
 	checkPath(t, "/23#@aa/23", false)
