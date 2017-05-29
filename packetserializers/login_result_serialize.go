@@ -9,10 +9,14 @@ import (
 )
 
 // LoginResultToOctets : todo
-func LoginResultToOctets(channelID channel.ID) []byte {
+func LoginResultToOctets(successful bool, channelID channel.ID) []byte {
 	buf := new(bytes.Buffer)
 	buf.WriteByte(byte(packet.LoginResult))
-	buf.WriteByte(byte(1))
+	var loginSuccessfulOctet uint8
+	if successful {
+		loginSuccessfulOctet = 1
+	}
+	buf.WriteByte(loginSuccessfulOctet)
 	binary.Write(buf, binary.BigEndian, channelID.Raw())
 	return buf.Bytes()
 }
