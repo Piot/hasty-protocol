@@ -76,7 +76,11 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 			log.Printf("Login err: %s", err)
 			return err
 		}
-		handler.HandleLogin(login)
+		loginErr := handler.HandleLogin(login)
+		if loginErr != nil {
+			log.Printf("Authentication err: %s", loginErr)
+			return loginErr
+		}
 	}
 
 	return nil
