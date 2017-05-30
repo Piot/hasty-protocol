@@ -3,7 +3,8 @@ package packetserializers
 import (
 	"bytes"
 	"encoding/binary"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/packet"
@@ -17,7 +18,7 @@ func PublishStreamToOctets(channel channel.ID, chunk []byte) []byte {
 	binary.Write(buf, binary.BigEndian, channel.Raw())
 	lengthBuf, lengthErr := serializer.SmallLengthToOctets(uint16(len(chunk)))
 	if lengthErr != nil {
-		log.Printf("We couldn't write length")
+		log.Warnf("We couldn't write length")
 		return []byte{}
 	}
 	buf.Write(lengthBuf)

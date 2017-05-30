@@ -3,7 +3,8 @@ package packetserializers
 import (
 	"bytes"
 	"encoding/binary"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/piot/hasty-protocol/asciistring"
 	"github.com/piot/hasty-protocol/packet"
@@ -16,7 +17,7 @@ func CreateStreamToOctets(request uint64, path string) []byte {
 	binary.Write(buf, binary.BigEndian, request)
 	pathOctets, pathOctetsErr := asciistring.ToOctets(path)
 	if pathOctetsErr != nil {
-		log.Printf("Couldn't serialize path")
+		log.Warnf("Couldn't serialize path")
 	}
 	buf.Write(pathOctets)
 	return buf.Bytes()

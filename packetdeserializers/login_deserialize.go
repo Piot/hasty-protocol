@@ -3,7 +3,8 @@ package packetdeserializers
 import (
 	"errors"
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/piot/hasty-protocol/commands"
 	"github.com/piot/hasty-protocol/packet"
@@ -30,6 +31,6 @@ func ToLogin(in packet.Packet) (commands.Login, error) {
 	}
 
 	login := commands.NewLogin(username, password)
-	log.Printf("login %s", login)
+	log.Infof("login %s", login)
 	return login, nil
 }

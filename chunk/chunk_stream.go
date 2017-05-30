@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"encoding/hex"
 	"errors"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/packet"
@@ -36,7 +37,7 @@ func (stream *Stream) Feed(octets []byte) error {
 	}
 	if true {
 		hexPayload := hex.Dump(stream.buffer.Bytes())
-		log.Printf("Buffer is now:%s", hexPayload)
+		log.Debugf("Buffer is now:%s", hexPayload)
 	}
 	return nil
 }
@@ -66,6 +67,6 @@ func (stream *Stream) FetchChunk() (chunk Chunk, err error) {
 	stream.buffer.Read(packetPayload)
 
 	foundPacket := NewChunk(packetHeader, packetPayload)
-	log.Printf("%s %s Received Chunk %s", stream.connectionID, stream.channelID, foundPacket)
+	log.Debugf("%s %s Received Chunk %s", stream.connectionID, stream.channelID, foundPacket)
 	return foundPacket, nil
 }

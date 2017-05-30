@@ -1,7 +1,7 @@
 package packetdeserializers
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/piot/hasty-protocol/handler"
 	"github.com/piot/hasty-protocol/packet"
@@ -79,12 +79,12 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 	case packet.Login:
 		login, err := ToLogin(in)
 		if err != nil {
-			log.Printf("Login err: %s", err)
+			log.Warnf("Login err: %s", err)
 			return err
 		}
 		loginErr := handler.HandleLogin(login)
 		if loginErr != nil {
-			log.Printf("Authentication err: %s", loginErr)
+			log.Warnf("Authentication err: %s", loginErr)
 			return loginErr
 		}
 	}

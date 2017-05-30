@@ -4,7 +4,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/piot/hasty-protocol/channel"
 	"github.com/piot/hasty-protocol/commands"
@@ -38,7 +39,7 @@ func ToAuthenticated(in packet.Packet) (commands.Authenticated, error) {
 
 // ToAuthenticatedEx : todo
 func ToAuthenticatedEx(payload []byte) (commands.Authenticated, error) {
-	log.Printf("Before decode:%s", hex.EncodeToString(payload))
+	log.Debugf("Before decode:%s", hex.EncodeToString(payload))
 	userID, userAllocatedChannelID, realname, _, infoErr := OctetsToAuthenticated(payload)
 	if infoErr != nil {
 		return commands.Authenticated{}, infoErr

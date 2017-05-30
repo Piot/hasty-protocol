@@ -4,11 +4,12 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/piot/hasty-protocol/asciistring"
 	"github.com/piot/hasty-protocol/commands"
 	"github.com/piot/hasty-protocol/deserialize"
 	"github.com/piot/hasty-protocol/packet"
 	"github.com/piot/hasty-protocol/realmname"
-	"github.com/piot/shadow-broker/asciistring"
+	log "github.com/sirupsen/logrus"
 )
 
 // ToConnect : Channel to subscribe to
@@ -33,6 +34,6 @@ func ToConnect(in packet.Packet) (commands.Connect, error) {
 		return commands.Connect{}, realmErr
 	}
 	connect := commands.NewConnect(realm, versionObject)
-	fmt.Printf("connect %s\n", connect)
+	log.Infof("connect %s\n", connect)
 	return connect, nil
 }

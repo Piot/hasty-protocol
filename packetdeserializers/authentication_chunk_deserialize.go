@@ -2,7 +2,6 @@ package packetdeserializers
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/piot/hasty-protocol/authentication"
 	"github.com/piot/hasty-protocol/deserialize"
@@ -12,7 +11,6 @@ import (
 func OctetsToAuthenticationChunk(payload []byte) (authentication.Info, []byte, error) {
 	pos := 0
 	authenticationInfo, authenticationInfoCount := OctetsToAuthenticationInfo(payload[pos:])
-	log.Printf("Authentication info %s", authenticationInfo)
 	pos += authenticationInfoCount
 	commandLength, commandLengthOctetCount, _ := deserialize.ToSmallLength(payload[pos:])
 	pos += commandLengthOctetCount

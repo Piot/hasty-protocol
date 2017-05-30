@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"encoding/hex"
 	"errors"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Stream : The input octet stream
@@ -32,7 +33,7 @@ func (stream *Stream) Feed(octets []byte) error {
 	}
 	if false {
 		hexPayload := hex.Dump(stream.buffer.Bytes())
-		log.Printf("Buffer is now:%s", hexPayload)
+		log.Debugf("Buffer is now:%s", hexPayload)
 	}
 	return nil
 }
@@ -65,6 +66,6 @@ func (stream *Stream) FetchPacket() (packet Packet, err error) {
 	stream.buffer.Read(packetPayload)
 
 	foundPacket := NewPacket(packetHeader, packetPayload)
-	log.Printf("%s Received Packet %s", stream.connectionID, foundPacket)
+	log.Debugf("%s Received Packet %s", stream.connectionID, foundPacket)
 	return foundPacket, nil
 }
