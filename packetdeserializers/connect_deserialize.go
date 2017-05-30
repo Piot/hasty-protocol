@@ -34,6 +34,6 @@ func ToConnect(in packet.Packet) (commands.Connect, error) {
 		return commands.Connect{}, realmErr
 	}
 	connect := commands.NewConnect(realm, versionObject)
-	log.Infof("connect %s\n", connect)
+	log.Infof("%s", connect)
 	return connect, nil
 }
