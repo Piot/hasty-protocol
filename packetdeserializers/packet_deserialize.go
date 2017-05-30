@@ -16,6 +16,12 @@ func Deserialize(in packet.Packet, handler handler.PacketHandler) (err error) {
 			return err
 		}
 		handler.HandleCreateStream(createStream)
+	case packet.CreateStreamResult:
+		createStreamResult, err := ToCreateStreamResult(in)
+		if err != nil {
+			return err
+		}
+		handler.HandleCreateStreamResult(createStreamResult)
 	case packet.PublishStream:
 		publishStream, err := ToPublishStream(in)
 		if err != nil {

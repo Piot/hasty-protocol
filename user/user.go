@@ -21,3 +21,13 @@ func (in ID) String() string {
 func (in ID) Raw() uint64 {
 	return in.value
 }
+
+// ToHex : Returns hex string
+func (in ID) ToHex() string {
+	return fmt.Sprintf("%08x", in.value)
+}
+
+// ToName : Returns name string
+func (in ID) ToName() string {
+	return fmt.Sprintf("%d", in.value)
+}

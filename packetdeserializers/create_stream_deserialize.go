@@ -1,6 +1,7 @@
 package packetdeserializers
 
 import (
+	"encoding/binary"
 	"errors"
 
 	"github.com/piot/hasty-protocol/commands"
@@ -14,11 +15,14 @@ func ToCreateStream(in packet.Packet) (commands.CreateStream, error) {
 	}
 
 	payload := in.Payload()
-	opath, _, err := ToOpath(payload)
+	pos := 0
+	requestID := binary.BigEndian.Uint64(payload[pos : pos+8])
+	pos += 8
+	opath, _, err := ToOpath(payload[pos:])
 	if err != nil {
 		return commands.CreateStream{}, err
 	}
 
-	createStream := commands.NewCreateStream(opath)
+	createStream := commands.NewCreateStream(requestID, opath)
 	return createStream, nil
 }
